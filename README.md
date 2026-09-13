@@ -32,7 +32,7 @@ To maintain clean separation of concerns without introducing multi-server infras
 | **Icons** | Lucide React | Clean UI icons |
 
 ## 🚀 Live Demo
-**https://your-project-name.vercel.app**
+**https://tradingresearch.vercel.app/**
 
 ## 🛠️ Local Development Setup
 
