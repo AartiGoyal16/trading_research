@@ -1,8 +1,9 @@
 import OpenAI from 'openai';
 import { ExperimentSpec } from '../types';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+const groq = new OpenAI({
+  apiKey: process.env.GROQ_API_KEY,
+  baseURL: "https://api.groq.com/openai/v1", 
 });
 
 export async function extractExperimentParameters(query: string): Promise<Partial<ExperimentSpec>> {
@@ -10,15 +11,15 @@ export async function extractExperimentParameters(query: string): Promise<Partia
     Analyze the following user query and extract trading experiment parameters.
     Query: "${query}"
 
-    Return a strict JSON object with these keys:
+    Return a strict JSON object with these keys. If a value is missing or ambiguous, return null for that key.
     - "instrument": (string, default "NIFTY 50" if not explicitly stated)
     - "action": (string, "BUY" or "SELL")
-    - "dropThreshold": (number, decimal representation of the percentage drop. E.g., 2% = 0.02. Return null if not explicitly stated)
-    - "holdingPeriod": (number, the number of days to hold. Return null if not explicitly stated)
+    - "dropThreshold": (number, decimal representation of the percentage drop. E.g., 2% = 0.02. Return null if missing)
+    - "holdingPeriod": (number, the number of days to hold. Return null if missing)
   `;
 
-  const response = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
+  const response = await groq.chat.completions.create({
+    model: "openai/gpt-oss-20b",
     messages: [{ role: "user", content: prompt }],
     response_format: { type: "json_object" },
   });
