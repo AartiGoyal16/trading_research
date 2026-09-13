@@ -100,7 +100,6 @@ export default function ResearchPlatform() {
         {workflow === "LEARN" && results && (
           <ResultsDashboard 
             results={results} 
-            spec={spec} 
           />
         )}
       </div>
