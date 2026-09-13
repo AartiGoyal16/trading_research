@@ -8,7 +8,7 @@ import { WorkflowState, ExperimentSpec, SimulationResults } from "@/types";
 
 export default function ResearchPlatform() {
   const [workflow, setWorkflow] = useState<WorkflowState>("ASK");
-  const [query, setQuery] = useState("Does buying NIFTY after a sharp fall work?");
+  const [query, setQuery] = useState("");
   const [isSimulating, setIsSimulating] = useState(false);
   
   const [spec, setSpec] = useState<ExperimentSpec>({
