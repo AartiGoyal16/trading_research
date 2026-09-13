@@ -55,8 +55,9 @@ export default function ResearchPlatform() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          dropThreshold: spec.dropThreshold, 
-          holdingPeriod: spec.holdingPeriod 
+          // Inject safe defaults if the user left the fields blank
+          dropThreshold: spec.dropThreshold !== null ? spec.dropThreshold : 0.01, 
+          holdingPeriod: spec.holdingPeriod !== null ? spec.holdingPeriod : 5 
         }),
       });
       
