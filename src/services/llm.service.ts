@@ -12,7 +12,7 @@ export async function extractExperimentParameters(query: string): Promise<Partia
     Query: "${query}"
 
     Return a strict JSON object with these keys. If a value is missing or ambiguous, return null for that key.
-    - "instrument": (string, default "NIFTY 50" if not explicitly stated)
+    - "instrument": (string, standard ticker format like "NIFTY 50" or "NIFTY BANK". Default to "NIFTY 50" if missing)
     - "action": (string, "BUY" or "SELL")
     - "dropThreshold": (number, decimal representation of the percentage drop. E.g., 2% = 0.02. Return null if missing)
     - "holdingPeriod": (number, the number of days to hold. Return null if missing)

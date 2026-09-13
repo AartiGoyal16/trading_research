@@ -27,13 +27,46 @@ export default function SpecCard({ spec, setSpec, onRunTest, isSimulating }: Pro
 
       <div className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
-          <div className="p-4 rounded-lg bg-slate-950 border border-slate-800">
-            <span className="text-xs text-slate-500 font-mono">INSTRUMENT</span>
-            <div className="text-base font-medium text-white mt-1">{spec.instrument}</div>
+          {/* Editable Instrument */}
+          <div className="p-4 rounded-lg bg-slate-950 border border-slate-800 transition-colors focus-within:border-emerald-500">
+            <span className="text-xs text-slate-500 font-mono flex items-center gap-2 mb-1">
+              <Settings2 className="w-3.5 h-3.5" /> INSTRUMENT
+            </span>
+            <input
+              type="text"
+              value={spec.instrument}
+              onChange={(e) => setSpec({ ...spec, instrument: e.target.value.toUpperCase() })}
+              className="mt-1 bg-transparent text-base font-medium text-white focus:outline-none w-full"
+            />
           </div>
+          
+          {/* Action Toggle Switch */}
           <div className="p-4 rounded-lg bg-slate-950 border border-slate-800">
-            <span className="text-xs text-slate-500 font-mono">ACTION</span>
-            <div className="text-base font-medium text-white mt-1">{spec.action}</div>
+            <span className="text-xs text-slate-500 font-mono flex items-center gap-2 mb-2">
+              <Settings2 className="w-3.5 h-3.5" /> ACTION
+            </span>
+            <div className="flex bg-slate-900 rounded-md p-1 border border-slate-800">
+              <button
+                onClick={() => setSpec({ ...spec, action: "BUY" })}
+                className={`flex-1 text-sm font-bold py-1 rounded transition-colors ${
+                  spec.action === "BUY" 
+                    ? "bg-emerald-500 text-black shadow-sm" 
+                    : "text-slate-500 hover:text-slate-300"
+                }`}
+              >
+                BUY
+              </button>
+              <button
+                onClick={() => setSpec({ ...spec, action: "SELL" })}
+                className={`flex-1 text-sm font-bold py-1 rounded transition-colors ${
+                  spec.action === "SELL" 
+                    ? "bg-rose-500 text-white shadow-sm" 
+                    : "text-slate-500 hover:text-slate-300"
+                }`}
+              >
+                SELL
+              </button>
+            </div>
           </div>
         </div>
 
