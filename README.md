@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AlgoChowk Research Platform: AI-Powered Trading UI
 
-## Getting Started
+A streamlined, Service-Oriented Architecture (SOA) prototype that translates natural language market hypotheses into structured quantitative backtests.
 
-First, run the development server:
+## 🎯 Product Vision
+This application embraces the **"Build less. Think more."** philosophy. Instead of an open-ended conversational chatbot, this platform provides a structured, deterministic research workflow:
+1. **Natural Language Processing:** Users input trading ideas in plain English (or select from suggested prompts).
+2. **Deterministic Parameter Extraction:** The LLM extracts strict quantitative parameters (Instrument, Action, Trigger Drop %, Holding Period).
+3. **Historical Simulation:** The system runs a programmatic backtest against historical price series and presents objective KPIs.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🏗️ Architecture Strategy
+To maintain clean separation of concerns without introducing multi-server infrastructure overhead, this project uses an isolated **Service-Oriented Architecture** inside Next.js:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+*   **UI Components (`/src/components`):** Presentation layer handling input chips, specification cards, and KPI dashboards.
+*   **API Controllers (`/src/app/api`):** Thin Next.js App Router endpoints routing HTTP traffic to underlying services.
+*   **Service Layer (`/src/services`):** 
+    *   `llm.service.ts`: Isolated AI logic using Groq's `openai/gpt-oss-20b` endpoint with JSON schema enforcement.
+    *   `quant.service.ts`: Pure mathematical simulation engine. Completely decoupled from HTTP and LLM logic.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 💡 Key Engineering Decisions
+*   **Graceful Degradation & Fallback UX:** If a user query lacks specific values (e.g., an unstated drop percentage or exit timeframe), the LLM sets those parameters to `null`. The UI detects this and dynamically surfaces explicit dropdowns so the user can complete the specification without error.
+*   **Deterministic Simulation Engine:** Backtest calculations are completely decoupled from external network latency. All returns, friction adjustments, and benchmark comparisons are executed synchronously in the service layer.
+*   **Prompt Engineering for Strict JSON:** Leveraged zero-shot JSON-mode prompting on Groq, ensuring the extraction step acts as a typed schema validation layer before reaching the quant engine.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 💻 Tech Stack
+| Category | Technology | Purpose |
+| :--- | :--- | :--- |
+| **Framework** | Next.js 16.3.5 (App Router) | React framework and API routing |
+| **Language** | TypeScript | Strict type safety and interface definitions |
+| **Styling** | Tailwind CSS | Dark-themed, responsive dashboard interface |
+| **AI Integration** | Groq API (OpenAI SDK) | Fast parameter extraction (`openai/gpt-oss-20b`) |
+| **Icons** | Lucide React | Clean UI icons |
 
-## Learn More
+## 🚀 Live Demo
+**https://your-project-name.vercel.app**
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Local Development Setup
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**1. Clone the repository:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+    git clone https://github.com/YOUR-USERNAME/trading_research.git
+    cd trading_research
 
-## Deploy on Vercel
+**2. Install dependencies:**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    npm install
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**3. Configure Environment Variables:**
+Create a `.env.local` file in the root directory:
+
+    GROQ_API_KEY=gsk_your_api_key_here
+
+**4. Run the development server:**
+
+    npm run dev
+
+Open http://localhost:3000 in your browser.
