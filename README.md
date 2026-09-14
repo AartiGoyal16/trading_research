@@ -38,7 +38,7 @@ To maintain clean separation of concerns without introducing multi-server infras
 
 **1. Clone the repository:**
 
-    git clone https://github.com/YOUR-USERNAME/trading_research.git
+    git clone https://github.com/AartiGoyal16/trading_research.git
     cd trading_research
 
 **2. Install dependencies:**
@@ -55,3 +55,17 @@ Create a `.env.local` file in the root directory:
     npm run dev
 
 Open http://localhost:3000 in your browser.
+
+## 🧠 Key Assumptions
+*   **Finite Variable Mapping:** Natural language queries regarding trading can be safely mapped to a finite set of quantitative variables (Instrument, Action, Trigger, Holding Period).
+*   **Mock Data Sufficiency:** A 60-day embedded array is sufficient to demonstrate the architectural pipeline and mathematical formulas for this prototype without introducing external API network latency.
+*   **"Sharp Fall" Baseline:** If a user omits the definition of a "sharp fall", the system safely assumes a baseline 1.0% daily drop, but explicitly surfaces this assumption in the UI for user confirmation rather than blindly executing.
+
+## 🤖 AI Tools Used
+*   **Gemini:** Utilized as a domain tutor for financial concepts and as a "vibe coding" partner for React component scaffolding and state management ideation.
+*   **Groq API (`gpt-oss-20b`):** Integrated directly into the `/services` layer for high-speed, deterministic semantic routing (converting natural language to strict JSON).
+
+## 🔮 What I Would Improve Next
+*   **Support Momentum Strategies:** This prototype was strictly scoped to mean-reversion (drops) based on the assignment prompt. I would introduce a `triggerDirection` variable (e.g., "DROPS BELOW" vs "RISES ABOVE") to support momentum breakouts.
+*   **Live Data Integration:** Replace the in-memory mock data array with a live PostgreSQL database or external financial API (e.g., Yahoo Finance). The decoupled Service-Oriented Architecture means this would require zero changes to the frontend UI.
+*   **Advanced Exits & Visualization:** Implement dynamic stop-loss and take-profit exit conditions rather than purely time-based holding periods, and integrate a visual charting library (like Recharts) to plot the strategy's equity curve.
